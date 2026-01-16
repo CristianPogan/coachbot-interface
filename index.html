@@ -3,66 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoachBot</title>
+    <title>CoachBot - Redirecting...</title>
     <style>
         body, html {
             margin: 0;
             padding: 0;
             height: 100vh;
-            overflow: hidden;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-        #chat-container {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
-        }
-        .loading {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background: #f2f4f8;
-            font-size: 18px;
-            color: #404040;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .container {
+            text-align: center;
+            color: white;
+        }
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        .manual-link {
+            margin-top: 30px;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        .manual-link:hover {
+            background: white;
+            color: #667eea;
         }
     </style>
 </head>
 <body>
-    <div class="loading" id="loading">Loading CoachBot...</div>
-    <iframe 
-        id="chat-container" 
-        src="https://coach-bot.app.n8n.cloud/webhook/d549d4f3-935a-41ee-b909-78d7cdcfaa5a/chat"
-        style="display: none;"
-        allow="microphone"
-    ></iframe>
+    <div class="container">
+        <h1>🤖 CoachBot</h1>
+        <div class="spinner"></div>
+        <p>Connecting you to your AI coach...</p>
+        <a href="https://coach-bot.app.n8n.cloud/webhook/d549d4f3-935a-41ee-b909-78d7cdcfaa5a/chat" 
+           class="manual-link" id="manual-link" style="display:none;">
+            Click here if not redirected
+        </a>
+    </div>
 
     <script>
-        const iframe = document.getElementById('chat-container');
-        const loading = document.getElementById('loading');
-        
-        iframe.onload = function() {
-            // Hide loading, show chat
-            loading.style.display = 'none';
-            iframe.style.display = 'block';
-            
-            // Attempt to focus (may be blocked by CORS)
-            setTimeout(() => {
-                try {
-                    const input = iframe.contentWindow.document.querySelector('[data-test-id="chat-input"]');
-                    if (input) {
-                        input.focus();
-                    }
-                } catch (e) {
-                    // CORS will block this, but at least the chat loads
-                    console.log('Cannot auto-focus due to iframe restrictions');
-                }
-                
-                // Fallback: give iframe focus
-                iframe.focus();
-            }, 1000);
-        };
+        // Redirect immediately
+        setTimeout(() => {
+            window.location.href = 'https://coach-bot.app.n8n.cloud/webhook/d549d4f3-935a-41ee-b909-78d7cdcfaa5a/chat';
+        }, 1500);
+
+        // Show manual link after 3 seconds
+        setTimeout(() => {
+            document.getElementById('manual-link').style.display = 'inline-block';
+        }, 3000);
     </script>
 </body>
 </html>
