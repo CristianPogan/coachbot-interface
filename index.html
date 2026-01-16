@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoachBot</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        #chat-container {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f2f4f8;
+            font-size: 18px;
+            color: #404040;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">Loading CoachBot...</div>
+    <iframe 
+        id="chat-container" 
+        src="https://coach-bot.app.n8n.cloud/webhook/d549d4f3-935a-41ee-b909-78d7cdcfaa5a/chat"
+        style="display: none;"
+        allow="microphone"
+    ></iframe>
+
+    <script>
+        const iframe = document.getElementById('chat-container');
+        const loading = document.getElementById('loading');
+        
+        iframe.onload = function() {
+            // Hide loading, show chat
+            loading.style.display = 'none';
+            iframe.style.display = 'block';
+            
+            // Attempt to focus (may be blocked by CORS)
+            setTimeout(() => {
+                try {
+                    const input = iframe.contentWindow.document.querySelector('[data-test-id="chat-input"]');
+                    if (input) {
+                        input.focus();
+                    }
+                } catch (e) {
+                    // CORS will block this, but at least the chat loads
+                    console.log('Cannot auto-focus due to iframe restrictions');
+                }
+                
+                // Fallback: give iframe focus
+                iframe.focus();
+            }, 1000);
+        };
+    </script>
+</body>
+</html>
